@@ -9,68 +9,93 @@ import org.springframework.stereotype.Service;
 @Service
 public class MoviesDBService {
 	
-	WebClient webClient = WebClient.create("https://api.themoviedb.org/3/");
+	WebClient webClient;// = WebClient.create("https://api.themoviedb.org/3/");
 
-	@Value("${themoviedatabase.api_key}")
-    private String api_key;
+	String baseUrl;
+	public MoviesDBService(String baseUrl) {
+		this.baseUrl = baseUrl;
+		webClient = WebClient.create(baseUrl);
+	}
+
+	private String api_key="2b868b906423d3e47dcc13efbc5a14e1";
+
 
 	public HashMap<String, Object> getConfig() {
-		
-		return new HashMap();
-		
+		System.out.println(api_key);
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("configuration").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 	}
 	
 	public HashMap<String, Object> findAllGenres() {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/genre/movie/list").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findAllPopularMovies() {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/movie/popular").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findTopRatedMovies() {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/movie/top_rated").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findMovieById(Integer id) {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/movie/"+id).queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findCreditsById(Integer id) {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/api/movie/"+id+"/credits").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findImagesById(Integer id) {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/api/movie/"+id+"/images").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findKeywordsById(Integer id) {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/api/movie/"+id+"/keywords").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findRecommendationsById(Integer id) {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/api/movie/"+id+"/recommendations").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
 	public HashMap<String, Object> findSimilarMoviesById(Integer id) {
 		
-		return new HashMap();
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/api/movie/"+id+"/similar").queryParam("api_key", api_key).build()).retrieve()
+				.bodyToMono(HashMap.class).block();
 		
 	}
 	
